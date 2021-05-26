@@ -8,7 +8,7 @@ namespace BusinessLayer.Injectors
     {
         public static void injectIdentity(IServiceCollection services)
         {
-            services.AddIdentityCore<ApplicationUser>().AddEntityFrameworkStores<ApplicationContext>();
+            services.AddIdentityCore<User>().AddEntityFrameworkStores<ApplicationContext>();
         }
     }
 }

@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
-    <ProjectReference Include="..\DataTransferLayer\DataTransferLayer.csproj" />
-    <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
+    <ProjectReference Include="..\DataAccessLayer\PlantTrackerAPI.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\DataTransferLayer\PlantTrackerAPI.DataTransferLayer.csproj" />
+    <ProjectReference Include="..\DomainModel\PlantTrackerAPI.DomainModel.csproj" />
   </ItemGroup>
 
 </Project>

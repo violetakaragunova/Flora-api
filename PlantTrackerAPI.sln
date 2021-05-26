@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StartupWebApplication", "StartupWebApplication\StartupWebApplication.csproj", "{9739BD3B-5080-4E4F-8D47-EEAA3EF22E35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantTrackerAPI", "StartupWebApplication\PlantTrackerAPI.csproj", "{9739BD3B-5080-4E4F-8D47-EEAA3EF22E35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModel", "DomainModel\DomainModel.csproj", "{7D1CE2B4-9D05-464F-847B-21D0A8916A50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantTrackerAPI.DomainModel", "DomainModel\PlantTrackerAPI.DomainModel.csproj", "{7D1CE2B4-9D05-464F-847B-21D0A8916A50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{092C6DE5-2592-4E24-8254-DA63B9A41DC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantTrackerAPI.DataAccessLayer", "DataAccessLayer\PlantTrackerAPI.DataAccessLayer.csproj", "{092C6DE5-2592-4E24-8254-DA63B9A41DC3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLayer", "CoreLayer\CoreLayer.csproj", "{A67AFD72-54E1-4EC6-AE4A-1452524AA3A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantTrackerAPI.CoreLayer", "CoreLayer\PlantTrackerAPI.CoreLayer.csproj", "{A67AFD72-54E1-4EC6-AE4A-1452524AA3A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{4D655CB6-031E-4C6B-90D0-3E07712FAF3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantTrackerAPI.BusinessLayer", "BusinessLayer\PlantTrackerAPI.BusinessLayer.csproj", "{4D655CB6-031E-4C6B-90D0-3E07712FAF3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTransferLayer", "DataTransferLayer\DataTransferLayer.csproj", "{82BDC32B-2049-443C-936A-D3CDCD1C6568}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantTrackerAPI.DataTransferLayer", "DataTransferLayer\PlantTrackerAPI.DataTransferLayer.csproj", "{82BDC32B-2049-443C-936A-D3CDCD1C6568}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

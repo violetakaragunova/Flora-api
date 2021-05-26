@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
+    <ProjectReference Include="..\DomainModel\PlantTrackerAPI.DomainModel.csproj" />
   </ItemGroup>
 
 </Project>

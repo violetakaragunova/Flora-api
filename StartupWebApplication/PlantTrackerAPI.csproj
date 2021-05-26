@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreLayer\CoreLayer.csproj" />
-    <ProjectReference Include="..\DataTransferLayer\DataTransferLayer.csproj" />
+    <ProjectReference Include="..\CoreLayer\PlantTrackerAPI.CoreLayer.csproj" />
+    <ProjectReference Include="..\DataTransferLayer\PlantTrackerAPI.DataTransferLayer.csproj" />
   </ItemGroup>
 
 

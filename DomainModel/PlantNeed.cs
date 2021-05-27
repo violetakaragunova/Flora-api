@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PlantTrackerAPI.DomainModel
 {
-    class PlantNeed
+    public class PlantNeed
     {
         public int Id { get; set; }
         public int MonthFrom { get; set; }
@@ -12,7 +12,9 @@ namespace PlantTrackerAPI.DomainModel
         public int Quantity { get; set; }
         public int Frequency { get; set; }
         public string FrequencyType { get; set; }
-        public Need Need { get; set; }
-        public Plant Plant { get; set; }
+        public virtual Need Need { get; set; }
+        public int NeedId { get; set; }
+        public virtual Plant Plant { get; set; }
+        public int PlantId { get; set; }
     }
 }

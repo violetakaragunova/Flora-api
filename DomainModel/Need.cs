@@ -4,9 +4,11 @@ using System.Text;
 
 namespace PlantTrackerAPI.DomainModel
 {
-    class Need
+    public class Need
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public ICollection<Action> Actions { get; set; }
+        public ICollection<PlantNeed> PlantNeeds { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PlantTrackerAPI.DomainModel
 {
-    class AppUser : IdentityUser
+    public class AppUser : IdentityUser<int>
     {
         public ICollection<AppUserRole> UserRoles { get; set; }
         public ICollection<Action> Actions { get; set; }

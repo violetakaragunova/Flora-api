@@ -12,7 +12,7 @@ namespace PlantTrackerAPI.DomainModel
         public virtual Room Room { get; set; }
         public int RoomId { get; set; }
         public ICollection<Action> Actions { get; set; }
-        public ICollection<Photo> Photos { get; set; }
+        public ICollection<PlantImage> Photos { get; set; }
         public ICollection<PlantNeed> PlantNeeds { get; set; }
     }
 }

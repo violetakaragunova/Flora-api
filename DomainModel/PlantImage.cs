@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PlantTrackerAPI.DomainModel
 {
-    public class Photo
+    public class PlantImage
     {
         public int Id { get; set; }
         public string Url { get; set; }

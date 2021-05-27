@@ -9,7 +9,7 @@ namespace BusinessLayer.Mappers
     {
         public UserProfile()
         {
-            CreateMap<UserDTO, AppUser>().ReverseMap();
+            CreateMap<UserDTO, User>().ReverseMap();
         }
     }
 }

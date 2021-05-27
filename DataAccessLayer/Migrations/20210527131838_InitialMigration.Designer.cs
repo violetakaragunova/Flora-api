@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DataAccessLayer.Migrations
+namespace PlantTrackerAPI.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210527105435_DomainModelsMigration")]
-    partial class DomainModelsMigration
+    [Migration("20210527131838_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,7 +47,7 @@ namespace DataAccessLayer.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("DomainModel.Identity.UserRole", b =>
@@ -58,11 +58,14 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -85,7 +88,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
@@ -108,7 +111,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("UserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
@@ -129,7 +132,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -148,7 +151,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Action", b =>
@@ -170,10 +173,111 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.ToTable("Needs");
+                });
+
+            modelBuilder.Entity("PlantTrackerAPI.DomainModel.Need", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
                     b.ToTable("Actions");
                 });
 
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.AppUser", b =>
+            modelBuilder.Entity("PlantTrackerAPI.DomainModel.Plant", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Plants");
+                });
+
+            modelBuilder.Entity("PlantTrackerAPI.DomainModel.PlantImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PlantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PlantImages");
+                });
+
+            modelBuilder.Entity("PlantTrackerAPI.DomainModel.PlantNeed", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Frequency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FrequencyType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MonthFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MonthTo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NeedId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlantId");
+
+                    b.ToTable("PlantNeeds");
+                });
+
+            modelBuilder.Entity("PlantTrackerAPI.DomainModel.Room", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("RoomNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("PlantTrackerAPI.DomainModel.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -237,142 +341,19 @@ namespace DataAccessLayer.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.AppUserRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AppUserRole");
-                });
-
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.Need", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Needs");
-                });
-
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.Photo", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Photos");
-                });
-
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.Plant", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Plants");
-                });
-
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.PlantNeed", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Frequency")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FrequencyType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MonthFrom")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MonthTo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NeedId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlantId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlantId");
-
-                    b.ToTable("PlantNeeds");
-                });
-
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.Room", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Rooms");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("DomainModel.Identity.UserRole", b =>
                 {
                     b.HasOne("DomainModel.Identity.Role", "Role")
-                        .WithMany("UserRoles")
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PlantTrackerAPI.DomainModel.AppUser", null)
-                        .WithMany()
+                    b.HasOne("PlantTrackerAPI.DomainModel.User", "User")
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -389,7 +370,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("PlantTrackerAPI.DomainModel.AppUser", null)
+                    b.HasOne("PlantTrackerAPI.DomainModel.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -398,7 +379,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("PlantTrackerAPI.DomainModel.AppUser", null)
+                    b.HasOne("PlantTrackerAPI.DomainModel.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -407,7 +388,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("PlantTrackerAPI.DomainModel.AppUser", null)
+                    b.HasOne("PlantTrackerAPI.DomainModel.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -416,12 +397,6 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Action", b =>
                 {
-                    b.HasOne("PlantTrackerAPI.DomainModel.AppUser", "User")
-                        .WithMany("Actions")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PlantTrackerAPI.DomainModel.Need", "Need")
                         .WithMany("Actions")
                         .HasForeignKey("Id")
@@ -433,27 +408,9 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.AppUserRole", b =>
-                {
-                    b.HasOne("DomainModel.Identity.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PlantTrackerAPI.DomainModel.AppUser", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PlantTrackerAPI.DomainModel.Photo", b =>
-                {
-                    b.HasOne("PlantTrackerAPI.DomainModel.Plant", "Plant")
-                        .WithMany("Photos")
+                    b.HasOne("PlantTrackerAPI.DomainModel.User", "User")
+                        .WithMany("Actions")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -463,6 +420,15 @@ namespace DataAccessLayer.Migrations
                 {
                     b.HasOne("PlantTrackerAPI.DomainModel.Room", "Room")
                         .WithMany("Plants")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantTrackerAPI.DomainModel.PlantImage", b =>
+                {
+                    b.HasOne("PlantTrackerAPI.DomainModel.Plant", "Plant")
+                        .WithMany("Photos")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

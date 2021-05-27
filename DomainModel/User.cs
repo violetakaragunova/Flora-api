@@ -6,7 +6,7 @@ namespace PlantTrackerAPI.DomainModel
 {
     public class User : IdentityUser<int>
     {
-        public ICollection<UserRole> Roles { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<Action> Actions { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace DomainModel.Identity
 {
     public class Role : IdentityRole<int>
     {
-        public ICollection<UserRole> Users { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
     }
 }

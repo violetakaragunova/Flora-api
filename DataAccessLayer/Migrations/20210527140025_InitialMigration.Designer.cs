@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PlantTrackerAPI.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210527131838_InitialMigration")]
+    [Migration("20210527140025_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,7 +173,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Needs");
+                    b.ToTable("Actions");
                 });
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Need", b =>
@@ -188,7 +188,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actions");
+                    b.ToTable("Needs");
                 });
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Plant", b =>
@@ -347,13 +347,13 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
             modelBuilder.Entity("DomainModel.Identity.UserRole", b =>
                 {
                     b.HasOne("DomainModel.Identity.Role", "Role")
-                        .WithMany("Users")
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PlantTrackerAPI.DomainModel.User", "User")
-                        .WithMany("Roles")
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

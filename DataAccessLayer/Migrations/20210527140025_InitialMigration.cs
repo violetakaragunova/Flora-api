@@ -8,7 +8,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Actions",
+                name: "Needs",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -17,7 +17,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Actions", x => x.Id);
+                    table.PrimaryKey("PK_Needs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,7 +202,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Needs",
+                name: "Actions",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
@@ -213,21 +213,21 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Needs", x => x.Id);
+                    table.PrimaryKey("PK_Actions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Needs_Actions_Id",
+                        name: "FK_Actions_Needs_Id",
                         column: x => x.Id,
-                        principalTable: "Actions",
+                        principalTable: "Needs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Needs_Plants_Id",
+                        name: "FK_Actions_Plants_Id",
                         column: x => x.Id,
                         principalTable: "Plants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Needs_Users_Id",
+                        name: "FK_Actions_Users_Id",
                         column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -271,9 +271,9 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_PlantNeeds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlantNeeds_Actions_Id",
+                        name: "FK_PlantNeeds_Needs_Id",
                         column: x => x.Id,
-                        principalTable: "Actions",
+                        principalTable: "Needs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -332,7 +332,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Needs");
+                name: "Actions");
 
             migrationBuilder.DropTable(
                 name: "PlantImages");
@@ -356,7 +356,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Actions");
+                name: "Needs");
 
             migrationBuilder.DropTable(
                 name: "Plants");

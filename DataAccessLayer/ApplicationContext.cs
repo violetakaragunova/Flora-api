@@ -20,18 +20,11 @@ namespace DataAccessLayer
         public DbSet<PlantImage> PlantImages { get; set; }
         public DbSet<Plant> Plants { get; set; }
         public DbSet<Room> Rooms { get; set; }
-        public override DbSet<IdentityRoleClaim<int>> RoleClaims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Action>().ToTable("Needs").HasKey(u => u.Id);
-            modelBuilder.Entity<Need>().ToTable("Actions").HasKey(u => u.Id);
-            modelBuilder.Entity<PlantNeed>().ToTable("PlantNeeds").HasKey(u => u.Id);
-            modelBuilder.Entity<PlantImage>().ToTable("PlantImages").HasKey(u => u.Id);
-            modelBuilder.Entity<Plant>().ToTable("Plants").HasKey(u => u.Id);
-            modelBuilder.Entity<Room>().ToTable("Rooms").HasKey(u => u.Id);
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Role>().ToTable("Roles");
             modelBuilder.Entity<UserRole>().ToTable("UserRoles");
@@ -45,12 +38,12 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<UserRole>()
                 .HasOne(ur => ur.Role)
-                .WithMany(u => u.Users)
+                .WithMany(u => u.UserRoles)
                 .HasForeignKey(ur => ur.RoleId);
 
             modelBuilder.Entity<UserRole>()
                 .HasOne(ur => ur.User)
-                .WithMany(u => u.Roles)
+                .WithMany(u => u.UserRoles)
                 .HasForeignKey(u => u.UserId);
 
             modelBuilder.Entity<Action>()

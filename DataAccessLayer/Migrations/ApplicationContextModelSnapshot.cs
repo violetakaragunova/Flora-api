@@ -171,7 +171,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Needs");
+                    b.ToTable("Actions");
                 });
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Need", b =>
@@ -186,7 +186,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actions");
+                    b.ToTable("Needs");
                 });
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Plant", b =>
@@ -345,13 +345,13 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
             modelBuilder.Entity("DomainModel.Identity.UserRole", b =>
                 {
                     b.HasOne("DomainModel.Identity.Role", "Role")
-                        .WithMany("Users")
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PlantTrackerAPI.DomainModel.User", "User")
-                        .WithMany("Roles")
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
-    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
-    <ProjectReference Include="..\DataTransferLayer\DataTransferLayer.csproj" />
+    <ProjectReference Include="..\BusinessLayer\PlantTrackerAPI.BusinessLayer.csproj" />
+    <ProjectReference Include="..\DataAccessLayer\PlantTrackerAPI.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\DataTransferLayer\PlantTrackerAPI.DataTransferLayer.csproj" />
   </ItemGroup>
 
 </Project>

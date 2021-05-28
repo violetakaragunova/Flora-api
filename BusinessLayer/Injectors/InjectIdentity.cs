@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer;
 using DomainModel.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using PlantTrackerAPI.DomainModel;
 
 namespace BusinessLayer.Injectors
 {
@@ -8,7 +9,7 @@ namespace BusinessLayer.Injectors
     {
         public static void injectIdentity(IServiceCollection services)
         {
-            services.AddIdentityCore<ApplicationUser>().AddEntityFrameworkStores<ApplicationContext>();
+            services.AddIdentityCore<User>().AddEntityFrameworkStores<ApplicationContext>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DataTransferLayer.DTO;
 using DomainModel.Identity;
+using PlantTrackerAPI.DomainModel;
 
 namespace BusinessLayer.Mappers
 {
@@ -8,7 +9,7 @@ namespace BusinessLayer.Mappers
     {
         public UserProfile()
         {
-            CreateMap<UserDTO, ApplicationUser>().ReverseMap();
+            CreateMap<UserDTO, User>().ReverseMap();
         }
     }
 }

@@ -5,6 +5,8 @@ using DataTransferLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PlantTrackerAPI.BusinessLayer.Services;
+using PlantTrackerAPI.DataTransferLayer.Interfaces;
 
 namespace CoreLayer.Injectors
 {
@@ -15,8 +17,9 @@ namespace CoreLayer.Injectors
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(configuration["ConnectionStrings:ApplicationDbConnection"])
             );
-            InjectIdentity.injectIdentity(services);
+            InjectIdentity.injectIdentity(services,configuration);
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
         }
     }
 }

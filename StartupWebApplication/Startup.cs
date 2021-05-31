@@ -1,11 +1,19 @@
+
 using AutoMapper;
+using BusinessLayer.Mappers;
 using CoreLayer.Injectors;
+using DataAccessLayer;
+using DomainModel.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PlantTrackerAPI.BusinessLayer.Services;
+using PlantTrackerAPI.DataTransferLayer.Interfaces;
+using PlantTrackerAPI.DomainModel;
 
 namespace StartupWebApplication
 {
@@ -22,9 +30,10 @@ namespace StartupWebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             InjectionRoot.injectDependencies(services, Configuration);
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(UserProfile).Assembly);
             services.AddControllers();
-            services.AddApiVersioning(o => {
+            services.AddApiVersioning(o =>
+            {
                 o.ReportApiVersions = true;
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);

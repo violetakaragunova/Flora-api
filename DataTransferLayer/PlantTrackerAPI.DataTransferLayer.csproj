@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.15" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DomainModel\PlantTrackerAPI.DomainModel.csproj" />
   </ItemGroup>
 

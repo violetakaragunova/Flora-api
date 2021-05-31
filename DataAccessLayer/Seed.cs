@@ -12,7 +12,6 @@ namespace PlantTrackerAPI.DataAccessLayer
     {
         public static async Task SeedUsers(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-
             var roles = new List<Role>
             {
                 new Role{Name="User"},
@@ -24,8 +23,6 @@ namespace PlantTrackerAPI.DataAccessLayer
                 await roleManager.CreateAsync(role);
             }
 
-           
-
             var admin = new User
             {
                 UserName = "admin"
@@ -33,7 +30,6 @@ namespace PlantTrackerAPI.DataAccessLayer
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");
             await userManager.AddToRolesAsync(admin, new[] { "Admin", "User" });
-
         }
     }
 }

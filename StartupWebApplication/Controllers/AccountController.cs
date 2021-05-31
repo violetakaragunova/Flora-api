@@ -1,16 +1,11 @@
 ﻿using AutoMapper;
-using DataAccessLayer;
 using DataTransferLayer.DTO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlantTrackerAPI.DataTransferLayer.DTO;
 using PlantTrackerAPI.DataTransferLayer.Interfaces;
 using PlantTrackerAPI.DomainModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PlantTrackerAPI.Controllers
@@ -60,8 +55,6 @@ namespace PlantTrackerAPI.Controllers
             };
 
             return Ok(userDto);
-
-
         }
            
         [HttpPost("login")]

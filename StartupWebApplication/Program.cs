@@ -25,20 +25,16 @@ namespace StartupWebApplication
 
             try
             {
-
                 var context = services.GetRequiredService<ApplicationContext>();
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 var roleManager = services.GetRequiredService<RoleManager<Role>>();
                 await context.Database.MigrateAsync();
                 await Seed.SeedUsers(userManager, roleManager);
-
             }
             catch (Exception ex)
             {
-
-                //var logger = services.GetRequiredService<ILogger<Program>>();
-                //logger.LogError(ex, "An error occured during migration");
-                Console.WriteLine("Error in program");
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occured during migration");
             }
 
             await host.RunAsync();
@@ -46,9 +42,9 @@ namespace StartupWebApplication
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+            .ConfigureWebHostDefaults(webBuilder =>
+             {
+                webBuilder.UseStartup<Startup>();
+             });
     }
 }

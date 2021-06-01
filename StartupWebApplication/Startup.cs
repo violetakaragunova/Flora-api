@@ -1,19 +1,15 @@
-
 using AutoMapper;
 using BusinessLayer.Mappers;
 using CoreLayer.Injectors;
-using DataAccessLayer;
-using DomainModel.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PlantTrackerAPI.BusinessLayer.Services;
-using PlantTrackerAPI.DataTransferLayer.Interfaces;
-using PlantTrackerAPI.DomainModel;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace StartupWebApplication
 {

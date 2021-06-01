@@ -9,6 +9,7 @@ using PlantTrackerAPI.DomainModel;
 using System.Threading.Tasks;
 using PlantTrackerAPI.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace PlantTrackerAPI.Controllers
 {
@@ -90,30 +91,37 @@ namespace PlantTrackerAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("forgotPassword")]
-        public async Task<ActionResult> ForgotPassword([FromBody]string email)
+        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDTO forgotPasswordRequestDTO)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if(user == null)
+            try
             {
-                return BadRequest("User does not exist");
+                string email = "vkaragunova@gmail.com";
+                var user = await _userManager.FindByEmailAsync(email);
+
+                if (user == null)
+                {
+                    return BadRequest("User does not exist");
+                }
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //var link = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
+                var link1 = "You token is :" + token + " email: " + forgotPasswordRequestDTO.Email;
+
+                EmaillHelper emailHelper = new EmaillHelper();
+                bool emailResponse = emailHelper.SendEmailPasswordReset(user.Email, link1);
+
+                if (emailResponse)
+                    return Ok(emailResponse);
+                //return RedirectToAction("ForgotPasswordConfirmation");
+                else
+                {
+                    return BadRequest(emailResponse.ToString());
+                }
             }
-
-            var token = await _tokenService.CreateToken(user);
-            //var link = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
-            var link1 = "You token is :" + token + " email: "+email;
-
-            EmaillHelper emailHelper = new EmaillHelper();
-            bool emailResponse = emailHelper.SendEmailPasswordReset(user.Email, link1);
-
-            if (emailResponse)
-                return Ok(emailResponse);
-            //return RedirectToAction("ForgotPasswordConfirmation");
-            else
+            catch( Exception ex)
             {
-                return BadRequest(emailResponse.ToString()); 
+                return BadRequest(ex.Message);
             }
-            return Ok(email);
 
         }
 
@@ -127,12 +135,14 @@ namespace PlantTrackerAPI.Controllers
             if (user == null)
                 return BadRequest();
 
-            var ressetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDTO.Token, resetPasswordDTO.NewPassword); 
+            var ressetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDTO.Token, resetPasswordDTO.NewPassword);
 
-            if (!ressetPassResult.Succeeded)
-                return BadRequest("Password is not changed!");
-            
-            return Ok(user);
+            if(!ressetPassResult.Succeeded)
+            {
+                return BadRequest("The password is not changed!");
+            }
+
+            return Ok();
         }
     }
 

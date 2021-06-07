@@ -26,8 +26,6 @@ namespace StartupWebApplication
 
             var services = scope.ServiceProvider;
 
-            var logger = host.Services.GetRequiredService<ILoggerManager>();
-
 
             try
             {
@@ -40,7 +38,6 @@ namespace StartupWebApplication
             }
             catch (Exception ex)
             {
-                logger.LogInformation("Error in program.cs");
             }
 
             await host.RunAsync();

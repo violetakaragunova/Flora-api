@@ -21,7 +21,6 @@ namespace CoreLayer.Injectors
             InjectIdentity.injectIdentity(services,configuration);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddSingleton<ILoggerManager, LoggerManager>();
         }
     }
 }

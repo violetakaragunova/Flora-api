@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using PlantTrackerAPI.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using log4net;
+using System.Reflection;
 
 namespace PlantTrackerAPI.Controllers
 {
@@ -21,6 +23,7 @@ namespace PlantTrackerAPI.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly SignInManager<User> _signInManager;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IMapper mapper) { 
             _tokenService = tokenService;
@@ -65,6 +68,16 @@ namespace PlantTrackerAPI.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
+
+            try
+            {
+                throw new Exception("Login error");
+            }
+            catch(Exception ex)
+            {
+                if (log.IsInfoEnabled)
+                    log.InfoFormat($"Message: Login Error");
+            }
             var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginDTO.Username.ToLower());
 
             if( user == null)

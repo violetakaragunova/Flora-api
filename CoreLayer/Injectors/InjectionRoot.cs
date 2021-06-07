@@ -5,6 +5,7 @@ using DataTransferLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PlantTrackerAPI.BusinessLayer;
 using PlantTrackerAPI.BusinessLayer.Services;
 using PlantTrackerAPI.DataTransferLayer.Interfaces;
 
@@ -20,6 +21,7 @@ namespace CoreLayer.Injectors
             InjectIdentity.injectIdentity(services,configuration);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddSingleton<ILoggerManager, LoggerManager>();
         }
     }
 }

@@ -104,15 +104,14 @@ namespace PlantTrackerAPI.Controllers
                 }
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var link = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
-                var link1 = "You token is :" + token + " email: " + forgotPasswordRequestDTO.Email;
+                var token1 = token.Replace("+","%2B");
+                var link = "http://localhost:4200/#/account/resetPassword?token="+token1+"&email="+forgotPasswordRequestDTO.Email;
 
                 EmaillHelper emailHelper = new EmaillHelper();
-                bool emailResponse = emailHelper.SendEmailPasswordReset(user.Email, link1);
+                bool emailResponse = emailHelper.SendEmailPasswordReset(user.Email, link);
 
                 if (emailResponse)
                     return Ok(emailResponse);
-                //return RedirectToAction("ForgotPasswordConfirmation");
                 else
                 {
                     return BadRequest(emailResponse.ToString());
@@ -125,8 +124,7 @@ namespace PlantTrackerAPI.Controllers
 
         }
 
-
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("resetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDTO)
         {

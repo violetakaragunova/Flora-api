@@ -1,14 +1,17 @@
 using DataAccessLayer;
 using DomainModel.Identity;
+using log4net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PlantTrackerAPI.BusinessLayer;
 using PlantTrackerAPI.DataAccessLayer;
 using PlantTrackerAPI.DomainModel;
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace StartupWebApplication
@@ -23,6 +26,9 @@ namespace StartupWebApplication
 
             var services = scope.ServiceProvider;
 
+            var logger = host.Services.GetRequiredService<ILoggerManager>();
+
+
             try
             {
                 var context = services.GetRequiredService<ApplicationContext>();
@@ -30,11 +36,11 @@ namespace StartupWebApplication
                 var roleManager = services.GetRequiredService<RoleManager<Role>>();
                 await context.Database.MigrateAsync();
                 await Seed.SeedUsers(userManager, roleManager);
+                throw new Exception(message:"Error in program.cs");
             }
             catch (Exception ex)
             {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occured during migration");
+                logger.LogInformation("Error in program.cs");
             }
 
             await host.RunAsync();

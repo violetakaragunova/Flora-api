@@ -98,9 +98,7 @@ namespace PlantTrackerAPI.Controllers
                 var user = await _userManager.FindByEmailAsync(forgotPasswordRequestDTO.Email);
 
                 if (user == null)
-                {
                     throw new HttpListenerException(500,"User does not exist");
-                }
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var token1 = token.Replace("+","%2B");

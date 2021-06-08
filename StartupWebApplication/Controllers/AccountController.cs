@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using log4net;
 using System.Reflection;
+using System.Net;
 
 namespace PlantTrackerAPI.Controllers
 {
@@ -40,7 +41,7 @@ namespace PlantTrackerAPI.Controllers
 
             if (userExists != null)
             {
-                return BadRequest("Username is taken.");
+                throw new HttpListenerException(500, "Username is taken");
             }
 
             var user = _mapper.Map<User>(registerDTO);
@@ -49,11 +50,13 @@ namespace PlantTrackerAPI.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded)
+                throw new HttpListenerException(500, "User is not registered");
 
             var roleResult = await _userManager.AddToRoleAsync(user, "User");
 
-            if (!roleResult.Succeeded) return BadRequest(result.Errors);
+            if (!roleResult.Succeeded)
+                throw new HttpListenerException(500, "Errors while adding roles");
 
             var userDto =  new UserDTO
             {
@@ -68,29 +71,15 @@ namespace PlantTrackerAPI.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
-
-            try
-            {
-                throw new Exception("Login error");
-            }
-            catch(Exception ex)
-            {
-                if (log.IsInfoEnabled)
-                    log.InfoFormat($"Message: Login Error");
-            }
             var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginDTO.Username.ToLower());
 
             if( user == null)
-            {
-                return Unauthorized("Invalid username");
-            }
+                throw new HttpListenerException(500, "User does not exist");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, false);
 
             if(!result.Succeeded)
-            {
-                return Unauthorized("Invalid password");
-            }
+                throw new HttpListenerException(500, "Invalid passwords");
 
             var userDTO = new UserDTO
             {
@@ -106,14 +95,11 @@ namespace PlantTrackerAPI.Controllers
         [HttpPost("forgotPassword")]
         public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDTO forgotPasswordRequestDTO)
         {
-            try
-            {
-                string email = "vkaragunova@gmail.com";
-                var user = await _userManager.FindByEmailAsync(email);
+                var user = await _userManager.FindByEmailAsync(forgotPasswordRequestDTO.Email);
 
                 if (user == null)
                 {
-                    return BadRequest("User does not exist");
+                    throw new HttpListenerException(500,"User does not exist");
                 }
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -129,11 +115,6 @@ namespace PlantTrackerAPI.Controllers
                 {
                     return BadRequest(emailResponse.ToString());
                 }
-            }
-            catch( Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
 
         }
 
@@ -144,13 +125,13 @@ namespace PlantTrackerAPI.Controllers
 
             var user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);
             if (user == null)
-                return BadRequest();
+                throw new HttpListenerException(500, "User does not exist");
 
             var ressetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDTO.Token, resetPasswordDTO.NewPassword);
 
             if(!ressetPassResult.Succeeded)
             {
-                return BadRequest("The password is not changed!");
+                throw new HttpListenerException(500, "Password was not changed");
             }
 
             return Ok();

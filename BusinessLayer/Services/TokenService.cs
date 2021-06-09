@@ -16,11 +16,13 @@ namespace PlantTrackerAPI.BusinessLayer.Services
     public class TokenService : ITokenService
     {
         private readonly SymmetricSecurityKey _key;
+        private readonly string _duration;
         private readonly UserManager<User> _userManager;
 
         public TokenService(IConfiguration config, UserManager<User> userManager)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:TokenKey"]));
+            _duration = config["Token:TokenDuration"];
             _userManager = userManager;
         }
         public async Task<string> CreateToken(User user)
@@ -39,7 +41,7 @@ namespace PlantTrackerAPI.BusinessLayer.Services
              var tokenDescriptor = new SecurityTokenDescriptor
              {
                  Subject = new ClaimsIdentity(claims),
-                 Expires = DateTime.Now.AddDays(7),
+                 Expires = DateTime.Now.AddDays(Int32.Parse(_duration)),
                  SigningCredentials = creds
              };
              var tokenHandler = new JwtSecurityTokenHandler();

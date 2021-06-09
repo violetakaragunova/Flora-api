@@ -6,7 +6,6 @@ using DataTransferLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlantTrackerAPI.BusinessLayer;
 using PlantTrackerAPI.BusinessLayer.Services;
 using PlantTrackerAPI.DataTransferLayer.Interfaces;
 

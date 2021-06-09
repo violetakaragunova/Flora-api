@@ -31,7 +31,7 @@ namespace BusinessLayer.Injectors
                options.TokenValidationParameters = new TokenValidationParameters
                {
                    ValidateIssuerSigningKey = true,
-                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])),
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:TokenKey"])),
                    ValidateIssuer = false,
                    ValidateAudience = false
                };

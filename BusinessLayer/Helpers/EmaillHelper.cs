@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Net.Mail;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Helpers
 {
     public class EmaillHelper
     {
-        public bool SendEmailPasswordReset(string userEmail, string link)
+        public bool SendEmailPasswordReset(IConfiguration configuration, string userEmail, string link)
         {
+            var _email = configuration["EmailCredentials:EmailAdress"];
+            var _password = configuration["EmailCredentials:EmailPassword"];
+
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("plant.tracker.official@gmail.com");
+            mailMessage.From = new MailAddress(_email);
             mailMessage.To.Add(new MailAddress(userEmail));
 
             mailMessage.Subject = "Password Reset";
@@ -20,7 +21,7 @@ namespace BusinessLayer.Helpers
 
             SmtpClient client = new SmtpClient();
             client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential("plant.tracker.official@gmail.com", "PlantTracker123");
+            client.Credentials = new System.Net.NetworkCredential(_email, _password);
             client.EnableSsl = true;
             client.Host = "smtp.gmail.com";
             client.Port = 587;

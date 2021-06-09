@@ -3,13 +3,12 @@ using BusinessLayer.Helpers;
 using DataTransferLayer.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using PlantTrackerAPI.DataTransferLayer.DTO;
 using PlantTrackerAPI.DataTransferLayer.Interfaces;
 using PlantTrackerAPI.DomainModel;
 using System.Net;
 using System.Threading.Tasks;
-
-
 
 namespace PlantTrackerAPI.BusinessLayer.Services
 {
@@ -19,28 +18,32 @@ namespace PlantTrackerAPI.BusinessLayer.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, ITokenService tokenService)
+        public AccountService(IConfiguration configuration, UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, ITokenService tokenService)
         {
             _tokenService = tokenService;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _config = configuration;
         }
 
         public async Task<bool> ForgetPassword(ForgotPasswordRequestDTO forgotPasswordRequestDTO)
         {
+            var _domain = this._config["Domain"];
+
             var user = await _userManager.FindByEmailAsync(forgotPasswordRequestDTO.Email);
 
             if (user == null)
                 throw new HttpListenerException(500, "User does not exist");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var token1 = token.Replace("+", "%2B");
-            var link = "http://localhost:4200/#/account/resetPassword?token=" + token1 + "&email=" + forgotPasswordRequestDTO.Email;
+            var tokenToSend = token.Replace("+", "%2B");
+            var link = _domain + "/#/account/resetPassword?token=" + tokenToSend + "&email=" + forgotPasswordRequestDTO.Email;
 
             EmaillHelper emailHelper = new EmaillHelper();
-            var emailResponse = emailHelper.SendEmailPasswordReset(user.Email, link);
+            var emailResponse = emailHelper.SendEmailPasswordReset(this._config, user.Email, link);
 
             return emailResponse;
 

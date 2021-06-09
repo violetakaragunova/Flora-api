@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using PlantTrackerAPI.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -46,7 +44,7 @@ namespace PlantTrackerAPI.CustomExceptionMiddleware
             return context.Response.WriteAsync(new ErrorDetailModel()
             {
                 StatusCode = context.Response.StatusCode,
-                Message = content
+                Message = "Something went wrong! Contact the administrator for more details."
             }.ToString());
         }
 

@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PlantTrackerAPI.Extensions;
 using PlantTrackerAPI.Mappers;
-using StartupWebApplication.Mappers;
 
 namespace StartupWebApplication
 {
@@ -51,7 +50,7 @@ namespace StartupWebApplication
 
             app.UseRouting();
 
-            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200"));
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(Configuration["Domain"]));
 
             app.UseAuthentication();
             app.UseAuthorization();

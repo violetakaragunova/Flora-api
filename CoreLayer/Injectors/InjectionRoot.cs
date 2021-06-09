@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Injectors;
+﻿using AutoMapper;
+using BusinessLayer.Injectors;
 using BusinessLayer.Services;
 using DataAccessLayer;
 using DataTransferLayer.Interfaces;
@@ -13,14 +14,14 @@ namespace CoreLayer.Injectors
 {
     public class InjectionRoot
     {
-        public static void injectDependencies(IServiceCollection services, IConfiguration configuration)
+        public static void injectDependencies(IMapper mapper, IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(configuration["ConnectionStrings:ApplicationDbConnection"])
-            );
-            InjectIdentity.injectIdentity(services,configuration);
+                options.UseSqlServer(configuration["ConnectionStrings:ApplicationDbConnection"]));
+            InjectIdentity.injectIdentity(services, configuration);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAccountService, AccountService>();
         }
     }
 }

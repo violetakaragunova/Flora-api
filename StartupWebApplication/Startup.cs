@@ -1,5 +1,4 @@
 using AutoMapper;
-using BusinessLayer.Mappers;
 using CoreLayer.Injectors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PlantTrackerAPI.Extensions;
+using PlantTrackerAPI.Mappers;
+using StartupWebApplication.Mappers;
 
 namespace StartupWebApplication
 {
@@ -24,8 +25,8 @@ namespace StartupWebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            InjectionRoot.injectDependencies(services, Configuration);
-            services.AddAutoMapper(typeof(UserProfile).Assembly);
+            IMapper mapper = InjectMappers.injectMappers(services);
+            InjectionRoot.injectDependencies(mapper, services, Configuration);
             services.AddControllers();
             services.AddApiVersioning(o =>
             {
@@ -43,7 +44,7 @@ namespace StartupWebApplication
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.ConfigureCustomExceptionMiddleware(); 
+                app.ConfigureCustomExceptionMiddleware();
             }
 
             app.UseHttpsRedirection();

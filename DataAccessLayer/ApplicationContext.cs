@@ -7,7 +7,7 @@ using PlantTrackerAPI.DomainModel;
 namespace DataAccessLayer
 {
     public class ApplicationContext : IdentityDbContext<User, Role, int,
-    IdentityUserClaim<int>, DomainModel.Identity.UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
+    IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

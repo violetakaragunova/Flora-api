@@ -21,6 +21,8 @@ namespace CoreLayer.Injectors
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IPlantService, PlantService>();
+            services.AddScoped<INeedService, NeedService>();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -155,7 +155,9 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Action", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateActionDone")
                         .HasColumnType("datetime2");
@@ -170,6 +172,12 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NeedId");
+
+                    b.HasIndex("PlantId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Actions");
                 });
@@ -192,7 +200,9 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Plant", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -205,13 +215,17 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoomId");
+
                     b.ToTable("Plants");
                 });
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.PlantImage", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
@@ -224,13 +238,17 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PlantId");
+
                     b.ToTable("PlantImages");
                 });
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.PlantNeed", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Frequency")
                         .HasColumnType("int");
@@ -254,6 +272,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NeedId");
 
                     b.HasIndex("PlantId");
 
@@ -397,19 +417,19 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     b.HasOne("PlantTrackerAPI.DomainModel.Need", "Need")
                         .WithMany("Actions")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("NeedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PlantTrackerAPI.DomainModel.Plant", "Plant")
                         .WithMany("Actions")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PlantTrackerAPI.DomainModel.User", "User")
                         .WithMany("Actions")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -418,7 +438,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     b.HasOne("PlantTrackerAPI.DomainModel.Room", "Room")
                         .WithMany("Plants")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -427,7 +447,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     b.HasOne("PlantTrackerAPI.DomainModel.Plant", "Plant")
                         .WithMany("Photos")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -436,7 +456,7 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     b.HasOne("PlantTrackerAPI.DomainModel.Need", "Need")
                         .WithMany("PlantNeeds")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("NeedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

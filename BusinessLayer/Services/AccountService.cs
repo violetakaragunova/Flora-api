@@ -64,6 +64,7 @@ namespace PlantTrackerAPI.BusinessLayer.Services
 
             var userDTO = new UserDTO
             {
+                Id = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
                 Token = await _tokenService.CreateToken(user)
@@ -94,13 +95,15 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             if (!roleResult.Succeeded)
                 throw new HttpListenerException(500, "Errors while adding roles");
 
-            var userDto = new UserDTO
+            var userDTO = new UserDTO
             {
+                Id = user.Id,
+                Email = user.Email,
                 UserName = user.UserName,
                 Token = await _tokenService.CreateToken(user)
             };
 
-            return userDto;
+            return userDTO;
         }
 
         public async Task<bool> ResetPassword(ResetPasswordDto resetPasswordDTO)

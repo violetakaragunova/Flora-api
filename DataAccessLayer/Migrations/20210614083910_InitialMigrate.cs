@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PlantTrackerAPI.DataAccessLayer.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -99,7 +99,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 name: "Plants",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     RoomId = table.Column<int>(nullable: false)
@@ -108,8 +109,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_Plants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Plants_Rooms_Id",
-                        column: x => x.Id,
+                        name: "FK_Plants_Rooms_RoomId",
+                        column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -205,7 +206,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 name: "Actions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     PlantId = table.Column<int>(nullable: false),
                     NeedId = table.Column<int>(nullable: false),
@@ -215,20 +217,20 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_Actions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Actions_Needs_Id",
-                        column: x => x.Id,
+                        name: "FK_Actions_Needs_NeedId",
+                        column: x => x.NeedId,
                         principalTable: "Needs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Actions_Plants_Id",
-                        column: x => x.Id,
+                        name: "FK_Actions_Plants_PlantId",
+                        column: x => x.PlantId,
                         principalTable: "Plants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Actions_Users_Id",
-                        column: x => x.Id,
+                        name: "FK_Actions_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -238,7 +240,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 name: "PlantImages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Url = table.Column<string>(nullable: true),
                     IsMain = table.Column<bool>(nullable: false),
                     PlantId = table.Column<int>(nullable: false)
@@ -247,8 +250,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_PlantImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlantImages_Plants_Id",
-                        column: x => x.Id,
+                        name: "FK_PlantImages_Plants_PlantId",
+                        column: x => x.PlantId,
                         principalTable: "Plants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -258,7 +261,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 name: "PlantNeeds",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     MonthFrom = table.Column<int>(nullable: false),
                     MonthTo = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
@@ -271,8 +275,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_PlantNeeds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlantNeeds_Needs_Id",
-                        column: x => x.Id,
+                        name: "FK_PlantNeeds_Needs_NeedId",
+                        column: x => x.NeedId,
                         principalTable: "Needs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -285,9 +289,39 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Actions_NeedId",
+                table: "Actions",
+                column: "NeedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Actions_PlantId",
+                table: "Actions",
+                column: "PlantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Actions_UserId",
+                table: "Actions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlantImages_PlantId",
+                table: "PlantImages",
+                column: "PlantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlantNeeds_NeedId",
+                table: "PlantNeeds",
+                column: "NeedId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlantNeeds_PlantId",
                 table: "PlantNeeds",
                 column: "PlantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plants_RoomId",
+                table: "Plants",
+                column: "RoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",

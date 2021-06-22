@@ -49,22 +49,22 @@ namespace DataAccessLayer
             modelBuilder.Entity<Action>()
                 .HasOne(ur => ur.User)
                 .WithMany(u => u.Actions)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.UserId);
 
             modelBuilder.Entity<Action>()
                 .HasOne(ur => ur.Plant)
                 .WithMany(u => u.Actions)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.PlantId);
 
             modelBuilder.Entity<Action>()
                 .HasOne(ur => ur.Need)
                 .WithMany(u => u.Actions)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.NeedId);
 
             modelBuilder.Entity<PlantNeed>()
                 .HasOne(ur => ur.Need)
                 .WithMany(u => u.PlantNeeds)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.NeedId);
 
             modelBuilder.Entity<PlantNeed>()
                 .HasOne(ur => ur.Plant)
@@ -74,12 +74,12 @@ namespace DataAccessLayer
             modelBuilder.Entity<Plant>()
                 .HasOne(ur => ur.Room)
                 .WithMany(u => u.Plants)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.RoomId);
 
             modelBuilder.Entity<PlantImage>()
                 .HasOne(ur => ur.Plant)
                 .WithMany(u => u.Photos)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.PlantId);
 
 
         }

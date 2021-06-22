@@ -26,16 +26,16 @@ namespace PlantTrackerAPI.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterModel registerModel)
         {
-            var user = _mapper.Map<UserModel>(await _accountService.RegisterUser(_mapper.Map<RegisterDTO>(registerModel)));
+            var user = _mapper.Map<ResponseLoginModel>(await _accountService.RegisterUser(_mapper.Map<RegisterDTO>(registerModel)));
 
             return Ok(user);
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult> Login(LoginModel loginModel)
+        public async Task<ActionResult> Login(RequestLoginModel loginModel)
         {
-            var user = _mapper.Map<UserModel>(await _accountService.LogInUser(_mapper.Map<LoginDTO>(loginModel)));
+            var user = _mapper.Map<ResponseLoginModel>(await _accountService.LogInUser(_mapper.Map<LoginDTO>(loginModel)));
 
             return Ok(user);
         }

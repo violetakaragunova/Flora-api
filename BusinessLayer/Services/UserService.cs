@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using DataAccessLayer;
 using DataTransferLayer.DTO;
 using DataTransferLayer.Interfaces;
-using DomainModel.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PlantTrackerAPI.DomainModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
@@ -21,10 +23,16 @@ namespace BusinessLayer.Services
             _userManager = userManager;
         }
 
-        public async Task<UserDTO> Get(int Id)
+        public async Task<UserDTO> GetUserById(int Id)
         {
             User user = await _userManager.FindByIdAsync(Id.ToString()).ConfigureAwait(false);
             return _mapper.Map<UserDTO>(user);
+        }
+
+        public IQueryable<UserDTO> GetUsers()
+        {
+            var query = dbContext.Users.AsQueryable();
+            return query.ProjectTo<UserDTO>(_mapper.ConfigurationProvider).AsNoTracking();
         }
     }
 }

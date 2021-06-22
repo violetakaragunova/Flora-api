@@ -4,14 +4,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace PlantTrackerAPI.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210622132827_AddMonthsEntity")]
+    partial class AddMonthsEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,68 +197,6 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Months");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "January"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "February"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "March"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "April"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "May"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "June"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "July"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "August"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "September"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "October"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Name = "November"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Name = "December"
-                        });
                 });
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Need", b =>

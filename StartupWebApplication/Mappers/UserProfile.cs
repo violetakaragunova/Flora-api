@@ -25,6 +25,7 @@ namespace StartupWebApplication.Mappers
             CreateMap<RegisterDTO, RegisterModel>().ReverseMap();
             CreateMap<ResetPasswordDto, ResetPasswordModel>().ReverseMap();
             CreateMap<NeedDTO, NeedModel>().ReverseMap();
+            CreateMap<MonthDTO, MonthModel>().ReverseMap();
         }
     }
 }

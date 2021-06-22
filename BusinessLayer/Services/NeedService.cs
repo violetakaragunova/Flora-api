@@ -5,11 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using PlantTrackerAPI.DataTransferLayer.DTO;
 using PlantTrackerAPI.DataTransferLayer.Interfaces;
 using PlantTrackerAPI.DomainModel;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PlantTrackerAPI.BusinessLayer.Services
@@ -54,12 +51,12 @@ namespace PlantTrackerAPI.BusinessLayer.Services
         public async Task<PlantNeedDTO> UpdatePlantNeed(PlantNeedDTO plantNeedDTO)
         {
             var id = plantNeedDTO.Id;
-            var need = dbContext.PlantNeeds.FirstOrDefaultAsync(r => r.Id == id);
+            var need = await dbContext.PlantNeeds.FirstOrDefaultAsync(r => r.Id == id);
             if (need == null)
                 throw new HttpListenerException(404, "Plant need with id " + id + " does not exist");
 
             var plantNeed = _mapper.Map<PlantNeed>(plantNeedDTO);
-            dbContext.PlantNeeds.Update(plantNeed);
+            dbContext.Entry(need).CurrentValues.SetValues(plantNeed);
             await dbContext.SaveChangesAsync();
 
             return _mapper.Map<PlantNeedDTO>(plantNeed);
@@ -67,9 +64,9 @@ namespace PlantTrackerAPI.BusinessLayer.Services
 
         public IQueryable<NeedDTO> GetNeeds()
         {
-            var query1 = dbContext.Needs.AsQueryable();
+            var query = dbContext.Needs.AsQueryable();
 
-            return query1.ProjectTo<NeedDTO>(_mapper.ConfigurationProvider).AsNoTracking();
+            return query.ProjectTo<NeedDTO>(_mapper.ConfigurationProvider).AsNoTracking();
         }
         public string GetNeedNameById(int id)
         {

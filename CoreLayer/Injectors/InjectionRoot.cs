@@ -23,6 +23,7 @@ namespace CoreLayer.Injectors
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IPlantService, PlantService>();
             services.AddScoped<INeedService, NeedService>();
+            services.AddScoped<IMonthService, MonthService>();
         }
     }
 }

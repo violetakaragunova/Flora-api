@@ -20,6 +20,7 @@ namespace BusinessLayer.Mappers
                 .ForMember(dest => dest.PhotoUrl, opt =>
                 opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url));
             CreateMap<NeedDTO, Need>().ReverseMap();
+            CreateMap<MonthDTO, Month>().ReverseMap();
         }
     }
 }

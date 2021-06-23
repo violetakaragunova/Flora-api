@@ -2,7 +2,7 @@
 
 namespace PlantTrackerAPI.Models
 {
-    public class LoginModel
+    public class RequestLoginModel
     {
         [Required]
         public string Username { get; set; }

@@ -4,10 +4,9 @@ using System.Text;
 
 namespace PlantTrackerAPI.DomainModel
 {
-    public class Room
+    public class Month
     {
         public int Id { get; set; }
-        public int RoomNumber { get; set; }
-        public virtual ICollection<Plant> Plants { get; set; }
+        public string Name { get; set; }
     }
 }

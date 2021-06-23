@@ -1,13 +1,20 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using DataTransferLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StartupWebApplication.Models;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace StartupWebApplication.Controllers
 {
+    [Authorize]
     [ApiVersion("1.0")]    
     [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -18,18 +25,19 @@ namespace StartupWebApplication.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        [Route("api/v{v:apiVersion}/User/GetUser/{id}")]
-        public async Task<IActionResult> GetUser(int Id)
+        [HttpGet("{id}")]
+        public async Task<UserModel> GetUser(int Id)
         {
-            if(string.IsNullOrWhiteSpace(Id.ToString()))
-            {
-                return BadRequest();
-            }
+            UserModel user = _mapper.Map<UserModel>(await _userService.GetUserById(Id).ConfigureAwait(false));
 
-            UserModel user = _mapper.Map<UserModel>(await _userService.Get(Id).ConfigureAwait(false));
+            return user;
+        }
 
-            return CreatedAtAction("GetById", new { id = user.Id }, user);
+        [HttpGet]
+        public IQueryable<UserModel> GetAllUsers()
+        {
+            var users = _userService.GetUsers();
+            return users.ProjectTo<UserModel>(_mapper.ConfigurationProvider).AsNoTracking();
         }
     }
 }

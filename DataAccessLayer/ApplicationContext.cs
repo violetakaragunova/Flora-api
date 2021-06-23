@@ -20,6 +20,7 @@ namespace DataAccessLayer
         public DbSet<PlantImage> PlantImages { get; set; }
         public DbSet<Plant> Plants { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Month> Months { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,22 +50,22 @@ namespace DataAccessLayer
             modelBuilder.Entity<Action>()
                 .HasOne(ur => ur.User)
                 .WithMany(u => u.Actions)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.UserId);
 
             modelBuilder.Entity<Action>()
                 .HasOne(ur => ur.Plant)
                 .WithMany(u => u.Actions)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.PlantId);
 
             modelBuilder.Entity<Action>()
                 .HasOne(ur => ur.Need)
                 .WithMany(u => u.Actions)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.NeedId);
 
             modelBuilder.Entity<PlantNeed>()
                 .HasOne(ur => ur.Need)
                 .WithMany(u => u.PlantNeeds)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.NeedId);
 
             modelBuilder.Entity<PlantNeed>()
                 .HasOne(ur => ur.Plant)
@@ -74,13 +75,28 @@ namespace DataAccessLayer
             modelBuilder.Entity<Plant>()
                 .HasOne(ur => ur.Room)
                 .WithMany(u => u.Plants)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.RoomId);
 
             modelBuilder.Entity<PlantImage>()
                 .HasOne(ur => ur.Plant)
                 .WithMany(u => u.Photos)
-                .HasForeignKey(ur => ur.Id);
+                .HasForeignKey(ur => ur.PlantId);
 
+            modelBuilder.Entity<Month>()
+                .HasData(
+                new Month { Id = 1, Name = "January"},
+                new Month { Id = 2, Name = "February" },
+                new Month { Id = 3, Name = "March" },
+                new Month { Id = 4, Name = "April" },
+                new Month { Id = 5, Name = "May" },
+                new Month { Id = 6, Name = "June" },
+                new Month { Id = 7, Name = "July" },
+                new Month { Id = 8, Name = "August" },
+                new Month { Id = 9, Name = "September" },
+                new Month { Id = 10, Name = "October" },
+                new Month { Id = 11, Name = "November" },
+                new Month { Id = 12, Name = "December" }
+                );
 
         }
     }

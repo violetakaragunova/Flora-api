@@ -21,6 +21,7 @@ namespace DataAccessLayer
         public DbSet<Plant> Plants { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Month> Months { get; set; }
+        public DbSet<FrequencyType> FrequencyTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,6 +73,11 @@ namespace DataAccessLayer
                 .WithMany(u => u.PlantNeeds)
                 .HasForeignKey(ur => ur.PlantId);
 
+            modelBuilder.Entity<PlantNeed>()
+                .HasOne(ur => ur.FrequencyType)
+                .WithMany(u => u.PlantNeeds)
+                .HasForeignKey(ur => ur.FrequencyTypeId);
+
             modelBuilder.Entity<Plant>()
                 .HasOne(ur => ur.Room)
                 .WithMany(u => u.Plants)
@@ -98,6 +104,12 @@ namespace DataAccessLayer
                 new Month { Id = 12, Name = "December" }
                 );
 
+            modelBuilder.Entity<FrequencyType>()
+                .HasData(
+                new FrequencyType { Id = 1, Type="Daily"},
+                new FrequencyType { Id = 2, Type = "Weekly" },
+                new FrequencyType { Id = 3, Type = "Monthly" }
+                );
         }
     }
 }

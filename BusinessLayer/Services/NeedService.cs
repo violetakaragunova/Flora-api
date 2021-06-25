@@ -27,7 +27,6 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             var need = await dbContext.Needs.FirstOrDefaultAsync(r => r.Id == needId);
             if (need == null)
                 throw new HttpListenerException(404, "Need with id " + needId + " does not exist");
-
             var plantNeed = _mapper.Map<PlantNeed>(plantNeedDTO);
             dbContext.PlantNeeds.Add(plantNeed);
             await dbContext.SaveChangesAsync();

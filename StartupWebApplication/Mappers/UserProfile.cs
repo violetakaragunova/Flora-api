@@ -26,6 +26,8 @@ namespace StartupWebApplication.Mappers
             CreateMap<ResetPasswordDto, ResetPasswordModel>().ReverseMap();
             CreateMap<NeedDTO, NeedModel>().ReverseMap();
             CreateMap<MonthDTO, MonthModel>().ReverseMap();
+            CreateMap<FrequencyTypeDTO, FrequencyTypeModel>().ReverseMap();
+            CreateMap<ActionDTO, ActionModel>().ReverseMap();
         }
     }
 }

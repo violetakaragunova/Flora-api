@@ -11,8 +11,7 @@ namespace BusinessLayer.Mappers
         public UserProfile() 
         {
             CreateMap<PlantImageDTO, PlantImage>().ReverseMap();
-            CreateMap<PlantNeedDTO, PlantNeed>().ReverseMap()
-                .ForMember(dest => dest.NeedName, opt =>
+            CreateMap<PlantNeedDTO, PlantNeed>().ReverseMap().ForMember(dest => dest.NeedName, opt =>
                 opt.MapFrom(src => src.Need.Name));
             CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<RegisterDTO, User>();
@@ -21,6 +20,8 @@ namespace BusinessLayer.Mappers
                 opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url));
             CreateMap<NeedDTO, Need>().ReverseMap();
             CreateMap<MonthDTO, Month>().ReverseMap();
+            CreateMap<FrequencyTypeDTO, FrequencyType>().ReverseMap();
+            CreateMap<ActionDTO, Action>().ReverseMap();
         }
     }
 }

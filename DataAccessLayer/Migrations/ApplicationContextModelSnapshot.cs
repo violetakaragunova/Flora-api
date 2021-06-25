@@ -182,6 +182,38 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                     b.ToTable("Actions");
                 });
 
+            modelBuilder.Entity("PlantTrackerAPI.DomainModel.FrequencyType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FrequencyTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Type = "Daily"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Type = "Weekly"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Type = "Monthly"
+                        });
+                });
+
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.Month", b =>
                 {
                     b.Property<int>("Id")
@@ -330,8 +362,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                     b.Property<int>("Frequency")
                         .HasColumnType("int");
 
-                    b.Property<string>("FrequencyType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FrequencyTypeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("MonthFrom")
                         .HasColumnType("int");
@@ -349,6 +381,8 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FrequencyTypeId");
 
                     b.HasIndex("NeedId");
 
@@ -531,6 +565,12 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
 
             modelBuilder.Entity("PlantTrackerAPI.DomainModel.PlantNeed", b =>
                 {
+                    b.HasOne("PlantTrackerAPI.DomainModel.FrequencyType", "FrequencyType")
+                        .WithMany("PlantNeeds")
+                        .HasForeignKey("FrequencyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PlantTrackerAPI.DomainModel.Need", "Need")
                         .WithMany("PlantNeeds")
                         .HasForeignKey("NeedId")

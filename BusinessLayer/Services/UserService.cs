@@ -31,8 +31,8 @@ namespace BusinessLayer.Services
 
         public IQueryable<UserDTO> GetUsers()
         {
-            var query = dbContext.Users.AsQueryable();
-            return query.ProjectTo<UserDTO>(_mapper.ConfigurationProvider).AsNoTracking();
+            var users = dbContext.Users.AsQueryable();
+            return users.ProjectTo<UserDTO>(_mapper.ConfigurationProvider).AsNoTracking();
         }
     }
 }

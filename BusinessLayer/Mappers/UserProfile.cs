@@ -22,6 +22,8 @@ namespace BusinessLayer.Mappers
             CreateMap<MonthDTO, Month>().ReverseMap();
             CreateMap<FrequencyTypeDTO, FrequencyType>().ReverseMap();
             CreateMap<ActionDTO, Action>().ReverseMap();
+            CreateMap<DashboardPlantDTO, DashboardPlant>().ReverseMap();
+            CreateMap<DashboardPlantNeedDTO, DashboardPlantNeed>().ReverseMap();
         }
     }
 }

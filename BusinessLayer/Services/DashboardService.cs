@@ -4,7 +4,9 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using PlantTrackerAPI.DataTransferLayer.DTO;
 using PlantTrackerAPI.DataTransferLayer.Interfaces;
+using PlantTrackerAPI.DomainModel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -24,9 +26,9 @@ namespace PlantTrackerAPI.BusinessLayer.Services
 
         public IQueryable<FrequencyTypeDTO> GetTypes()
         {
-            var query1 = dbContext.FrequencyTypes.AsQueryable();
+            var types = dbContext.FrequencyTypes.AsQueryable();
 
-            return query1.ProjectTo<FrequencyTypeDTO>(_mapper.ConfigurationProvider).AsNoTracking();
+            return types.ProjectTo<FrequencyTypeDTO>(_mapper.ConfigurationProvider).AsNoTracking();
         }
 
         public DateTime CheckLastAction(int needId, int plantId, int typeId)
@@ -63,8 +65,10 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             return _mapper.Map<ActionDTO>(action);
         }
 
-        public IQueryable<PlantDTO> GetPlants()
+        public List<DashboardPlantDTO> GetPlants()
         {
+            int curMonth = DateTime.Now.Month;
+
             DateTime today = DateTime.Now;
 
             var LastActions = (from action in dbContext.Actions
@@ -80,20 +84,44 @@ namespace PlantTrackerAPI.BusinessLayer.Services
                                    DateActionDone = g.Max(a => a.DateActionDone)
                                }).Distinct().AsQueryable();
 
-
             var result = (from plants in dbContext.Plants
                           join plantNeeds in dbContext.PlantNeeds
                           on plants.Id equals plantNeeds.PlantId
+                          where curMonth >= plantNeeds.MonthFrom && curMonth<=plantNeeds.MonthTo
                           join action in LastActions
-                          on new { plantId = plants.Id, needId = plantNeeds.Id } equals new { plantId = action.PlantId, needId = action.NeedId }
-                         // where action.DateActionDone.AddDays(1) <= today
-                          select plants).AsQueryable();
+                          on new { plantId = plants.Id, needId = plantNeeds.NeedId } equals new { plantId = action.PlantId, needId = action.NeedId } into PlantsWithLastNeeds
+                          from plantsWithLastNeeds in PlantsWithLastNeeds.DefaultIfEmpty()
+                          select new
+                          {
+                              PlantId = plantNeeds.PlantId,
+                              RoomId = plants.RoomId,
+                              NeedId = plantNeeds.NeedId,
+                              NextAction = plantsWithLastNeeds.DateActionDone.AddDays(plantNeeds.Frequency*plantNeeds.FrequencyTypeId),
+                              Quantity = plantNeeds.Quantity
+                          } into plantNeedsWithAction
+                          select plantNeedsWithAction).ToList();
 
-            /*var query1 = dbContext.Plants.Include(p => p.Photos).Include(n => n.PlantNeeds).AsQueryable();
 
-            return query1.ProjectTo<PlantDTO>(_mapper.ConfigurationProvider).AsNoTracking();*/
+            var resultList = result
+                .GroupBy(d => new 
+                {
+                    PlantId = d.PlantId,
+                    RoomId = d.RoomId
+                })
+                .Select(d => new DashboardPlant
+                {
+                    PlantId = d.Key.PlantId,
+                    RoomId = d.Key.RoomId,
+                    PlantNeeds = result.Where(x => x.PlantId == d.Key.PlantId && x.NextAction <= today)
+                    .Select(x => new DashboardPlantNeed
+                    {
+                        NeedId = x.NeedId,
+                        Quantity = x.Quantity,
+                        NextActionDone = x.NextAction
+                    }).ToList()
+                }).ToList();
 
-            return result.ProjectTo<PlantDTO>(_mapper.ConfigurationProvider).AsNoTracking(); 
+            return _mapper.Map<List<DashboardPlantDTO>>(resultList);
         }
     }
 }

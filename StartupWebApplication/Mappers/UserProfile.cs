@@ -28,6 +28,8 @@ namespace StartupWebApplication.Mappers
             CreateMap<MonthDTO, MonthModel>().ReverseMap();
             CreateMap<FrequencyTypeDTO, FrequencyTypeModel>().ReverseMap();
             CreateMap<ActionDTO, ActionModel>().ReverseMap();
+            CreateMap<DashboardPlantDTO, DashboardPlantModel>().ReverseMap();
+            CreateMap<DashboardPlantNeedDTO, DashboardPlantNeedModel>().ReverseMap();
         }
     }
 }

@@ -27,9 +27,9 @@ namespace PlantTrackerAPI.BusinessLayer.Services
         }
         public IQueryable<PlantDTO> GetPlants()
         {
-            var query1 = dbContext.Plants.Include(p => p.Photos).Include(n => n.PlantNeeds).AsQueryable();
+            var plants = dbContext.Plants.Include(p => p.Photos).Include(n => n.PlantNeeds).AsQueryable();
 
-            return query1.ProjectTo<PlantDTO>(_mapper.ConfigurationProvider).AsNoTracking();
+            return plants.ProjectTo<PlantDTO>(_mapper.ConfigurationProvider).AsNoTracking();
         }
 
         public async Task<PlantDTO> GetPlantById(int id)

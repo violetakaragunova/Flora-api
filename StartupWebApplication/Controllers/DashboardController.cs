@@ -60,9 +60,9 @@ namespace PlantTrackerAPI.Controllers
         }
 
         [HttpGet("plants")]
-        public List<PlantModel> GetPlants()
+        public List<DashboardPlantModel> GetPlants()
         {
-            var plants = _mapper.Map<List<PlantModel>>(_dashboardService.GetPlants());
+            var plants = _mapper.Map<List<DashboardPlantModel>>(_dashboardService.GetPlants());
 
             return plants;
         }

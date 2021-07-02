@@ -63,9 +63,9 @@ namespace PlantTrackerAPI.BusinessLayer.Services
 
         public IQueryable<NeedDTO> GetNeeds()
         {
-            var query = dbContext.Needs.AsQueryable();
+            var needs = dbContext.Needs.AsQueryable();
 
-            return query.ProjectTo<NeedDTO>(_mapper.ConfigurationProvider).AsNoTracking();
+            return needs.ProjectTo<NeedDTO>(_mapper.ConfigurationProvider).AsNoTracking();
         }
         public string GetNeedNameById(int id)
         {

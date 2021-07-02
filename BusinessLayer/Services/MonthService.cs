@@ -21,9 +21,9 @@ namespace PlantTrackerAPI.BusinessLayer.Services
 
         public IQueryable<MonthDTO> GetMonths()
         {
-            var query1 = dbContext.Months.AsQueryable();
+            var months = dbContext.Months.AsQueryable();
 
-            return query1.ProjectTo<MonthDTO>(_mapper.ConfigurationProvider).AsNoTracking();
+            return months.ProjectTo<MonthDTO>(_mapper.ConfigurationProvider).AsNoTracking();
         }
     }
 }

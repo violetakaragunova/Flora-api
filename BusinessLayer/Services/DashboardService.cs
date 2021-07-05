@@ -31,16 +31,6 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             return types.ProjectTo<FrequencyTypeDTO>(_mapper.ConfigurationProvider).AsNoTracking();
         }
 
-        public DateTime CheckLastAction(int needId, int plantId, int typeId)
-        {
-            var query1 = (from a in dbContext.Actions
-                          where a.PlantId == plantId && a.NeedId == needId
-                          orderby a.DateActionDone descending
-                          select a.DateActionDone).Take(1).SingleOrDefault();
-
-            return query1;
-        }
-
         public async Task<ActionDTO> AddAction(ActionDTO actionDTO)
         {
             var plantId = actionDTO.PlantId;

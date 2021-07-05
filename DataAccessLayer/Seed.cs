@@ -25,7 +25,8 @@ namespace PlantTrackerAPI.DataAccessLayer
 
             var admin = new User
             {
-                UserName = "admin"
+                UserName = "admin",
+                PhoneNumber= "070 000 000"
             };
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");

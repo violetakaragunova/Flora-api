@@ -8,8 +8,8 @@ namespace PlantTrackerAPI.DataTransferLayer.DTO
     public class DashboardPlantDTO
     {
         public int PlantId { get; set; }
-        public int NeedId { get; set; }
-        public int RoomId { get; set; }
-        public IQueryable<DashboardPlantNeedDTO> PlantNeeds { get; set; }
+        public string RoomName { get; set; }
+        public string PhotoUrl { get; set; }
+        public IEnumerable<DashboardPlantNeedDTO> PlantNeeds { get; set; }
     }
 }

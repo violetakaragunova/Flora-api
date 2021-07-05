@@ -23,32 +23,12 @@ namespace PlantTrackerAPI.Controllers
             _dashboardService = dashboardService;
         }
 
-        [HttpGet]
+        [HttpGet("types")]
         public List<FrequencyTypeModel> GetTypes()
         {
             var types = _dashboardService.GetTypes();
 
             return _mapper.Map<List<FrequencyTypeModel>>(types);
-        }
-
-        [HttpGet("action/{needId}/{plantId}/{type}")]
-        public bool NeedAction(int needId, int plantId, int type)
-        {
-            DateTime curDate = DateTime.Now;
-
-            var lastAction = _dashboardService.CheckLastAction(needId , plantId , type);
-
-            /*DateTime nextAction = lastAction.AddDays(1);
-
-            if (lastAction == null)
-                return true;
-
-            if (nextAction <= curDate)
-                return true;
-            else
-                return false;*/
-
-            return true;
         }
 
         [HttpPost("add")]
@@ -59,10 +39,10 @@ namespace PlantTrackerAPI.Controllers
             return Ok(action);
         }
 
-        [HttpGet("plants")]
-        public List<DashboardPlantModel> GetPlants()
-        {
-            var plants = _mapper.Map<List<DashboardPlantModel>>(_dashboardService.GetPlants());
+        [HttpGet("plants/{typeId}")]
+        public List<DashboardPlantModel> GetPlants(int typeId)
+         {
+            var plants = _mapper.Map<List<DashboardPlantModel>>(_dashboardService.GetPlants(typeId));
 
             return plants;
         }

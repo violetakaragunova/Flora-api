@@ -17,7 +17,9 @@ namespace BusinessLayer.Mappers
             CreateMap<RegisterDTO, User>();
             CreateMap<PlantDTO, Plant>().ReverseMap()
                 .ForMember(dest => dest.PhotoUrl, opt =>
-                opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url));
+                opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
+                .ForMember(dest => dest.RoomName, opt =>
+               opt.MapFrom(src => src.Room.RoomName));
             CreateMap<NeedDTO, Need>().ReverseMap();
             CreateMap<MonthDTO, Month>().ReverseMap();
             CreateMap<FrequencyTypeDTO, FrequencyType>().ReverseMap();

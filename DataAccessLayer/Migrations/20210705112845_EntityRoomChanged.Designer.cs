@@ -4,14 +4,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace PlantTrackerAPI.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210705112845_EntityRoomChanged")]
+    partial class EntityRoomChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,9 +191,6 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Days")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
@@ -203,19 +202,16 @@ namespace PlantTrackerAPI.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            Days = 1,
                             Type = "Daily"
                         },
                         new
                         {
                             Id = 2,
-                            Days = 7,
                             Type = "Weekly"
                         },
                         new
                         {
                             Id = 3,
-                            Days = 30,
                             Type = "Monthly"
                         });
                 });

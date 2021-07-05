@@ -106,9 +106,9 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<FrequencyType>()
                 .HasData(
-                new FrequencyType { Id = 1, Type="Daily"},
-                new FrequencyType { Id = 2, Type = "Weekly" },
-                new FrequencyType { Id = 3, Type = "Monthly" }
+                new FrequencyType { Id = 1, Type="Daily", Days=1},
+                new FrequencyType { Id = 2, Type = "Weekly", Days=7 },
+                new FrequencyType { Id = 3, Type = "Monthly", Days=30 }
                 );
         }
     }

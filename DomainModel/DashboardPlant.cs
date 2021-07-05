@@ -8,7 +8,8 @@ namespace PlantTrackerAPI.DomainModel
     public class DashboardPlant
     {
         public int PlantId { get; set; }
-        public int RoomId { get; set; }
+        public string RoomName { get; set; }
+        public string PhotoUrl { get; set; }
         public IEnumerable<DashboardPlantNeed> PlantNeeds { get; set; }
     }
 }

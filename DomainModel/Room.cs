@@ -7,7 +7,7 @@ namespace PlantTrackerAPI.DomainModel
     public class Room
     {
         public int Id { get; set; }
-        public int RoomNumber { get; set; }
+        public string RoomName { get; set; }
         public virtual ICollection<Plant> Plants { get; set; }
     }
 }

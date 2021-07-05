@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace PlantTrackerAPI.Models
 {
     public class DashboardPlantModel
     {
         public int PlantId { get; set; }
-        public int NeedId { get; set; }
-        public int RoomId { get; set; }
-        public IQueryable<DashboardPlantModel> PlantNeeds { get; set; }
+        public string RoomName { get; set; }
+        public string PhotoUrl { get; set; }
+        public IEnumerable<DashboardPlantNeedModel> PlantNeeds { get; set; }
     }
 }

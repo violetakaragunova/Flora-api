@@ -12,9 +12,15 @@ namespace BusinessLayer.Mappers
         {
             CreateMap<PlantImageDTO, PlantImage>().ReverseMap();
             CreateMap<PlantNeedDTO, PlantNeed>().ReverseMap().ForMember(dest => dest.NeedName, opt =>
-                opt.MapFrom(src => src.Need.Name));
+                opt.MapFrom(src => src.Need.Name))
+                .ForMember(dest => dest.MonthFrom, opt => opt.MapFrom(src => src.MonthFromId))
+                .ForMember(dest => dest.MonthTo, opt => opt.MapFrom(src => src.MonthToId))
+                .ForMember(dest => dest.MonthFromName, opt => opt.MapFrom(src => src.MonthFrom.Name))
+                .ForMember(dest => dest.MonthToName, opt => opt.MapFrom(src => src.MonthTo.Name))
+                .ForMember(dest => dest.FrequencyType, opt => opt.MapFrom(src => src.FrequencyType.Type));
             CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<RegisterDTO, User>();
+            CreateMap<PlantAddDTO, Plant>().ReverseMap();
             CreateMap<PlantDTO, Plant>().ReverseMap()
                 .ForMember(dest => dest.PhotoUrl, opt =>
                 opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
@@ -26,6 +32,7 @@ namespace BusinessLayer.Mappers
             CreateMap<ActionDTO, Action>().ReverseMap();
             CreateMap<DashboardPlantDTO, DashboardPlant>().ReverseMap();
             CreateMap<DashboardPlantNeedDTO, DashboardPlantNeed>().ReverseMap();
+            CreateMap<RoomDTO,Room>().ReverseMap();
         }
     }
 }

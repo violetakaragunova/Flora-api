@@ -55,14 +55,23 @@ namespace PlantTrackerAPI.BusinessLayer.Services
 
         }
 
-        public async Task<PlantDTO> AddPlant(PlantDTO plantDTO)
+        public async Task<PlantDTO> AddPlant(PlantAddDTO plantDTO)
         {
-            var roomName = plantDTO.RoomName;
-            var room =await dbContext.Rooms.FirstOrDefaultAsync(r => r.RoomName == roomName);
+            var roomId = plantDTO.RoomId;
+            var room =await dbContext.Rooms.FirstOrDefaultAsync(r => r.Id == roomId);
             if (room == null)
-                throw new HttpListenerException(404, "Room with name " + roomName + " does not exist");
+                throw new HttpListenerException(404, "Room with name " + roomId + " does not exist");
             var plant = _mapper.Map<Plant>(plantDTO);
             dbContext.Plants.Add(plant);
+            await dbContext.SaveChangesAsync();
+            var image = new PlantImage
+            {
+                Url = plantDTO.Url,
+                IsMain = true,
+                PlantId = plant.Id
+            };
+
+            dbContext.PlantImages.Add(image);
             await dbContext.SaveChangesAsync();
 
             return _mapper.Map<PlantDTO>(plant);

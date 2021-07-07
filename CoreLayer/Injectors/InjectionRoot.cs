@@ -25,6 +25,7 @@ namespace CoreLayer.Injectors
             services.AddScoped<INeedService, NeedService>();
             services.AddScoped<IMonthService, MonthService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IRoomService, RoomService>();
         }
     }
 }

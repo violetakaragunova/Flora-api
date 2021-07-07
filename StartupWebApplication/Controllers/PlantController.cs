@@ -56,7 +56,7 @@ namespace PlantTrackerAPI.Controllers
         [HttpPost("add")]
         public async Task<ActionResult> AddPlant([FromBody] PlantAddModel plantAddModel)
         {
-            var plant =_mapper.Map<PlantModel>(await _plantService.AddPlant(_mapper.Map<PlantDTO>(plantAddModel)));
+            var plant =_mapper.Map<PlantModel>(await _plantService.AddPlant(_mapper.Map<PlantAddDTO>(plantAddModel)));
 
             return Ok(plant);
         }

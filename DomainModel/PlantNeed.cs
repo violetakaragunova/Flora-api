@@ -7,8 +7,10 @@ namespace PlantTrackerAPI.DomainModel
     public class PlantNeed
     {
         public int Id { get; set; }
-        public int MonthFrom { get; set; }
-        public int MonthTo { get; set; }
+        public virtual Month MonthFrom { get; set; }
+        public int MonthFromId { get; set; }
+        public virtual Month MonthTo { get; set; }
+        public int MonthToId { get; set; }
         public int Quantity { get; set; }
         public int Frequency { get; set; }
         public virtual FrequencyType FrequencyType { get; set; }

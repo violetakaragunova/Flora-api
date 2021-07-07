@@ -57,7 +57,6 @@ namespace PlantTrackerAPI.BusinessLayer.Services
 
         public List<DashboardPlantDTO> GetPlants(int typeId)
         {
-            int[] daysToAdd = { 1, 7, 14 };
             int curMonth = DateTime.Now.Month;
             DateTime startDate;
             DateTime endDate;
@@ -97,7 +96,7 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             var result = (from plants in dbContext.Plants
                           join plantNeeds in dbContext.PlantNeeds
                           on plants.Id equals plantNeeds.PlantId
-                          where curMonth >= plantNeeds.MonthFrom && curMonth<=plantNeeds.MonthTo
+                          where curMonth >= plantNeeds.MonthFromId && curMonth<=plantNeeds.MonthToId
                           join needs in dbContext.Needs
                           on plantNeeds.NeedId equals needs.Id
                           join frequencyType in dbContext.FrequencyTypes

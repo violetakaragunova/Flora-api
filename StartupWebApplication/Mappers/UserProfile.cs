@@ -16,7 +16,7 @@ namespace StartupWebApplication.Mappers
             CreateMap<PlantNeedDTO, PlantNeedModel>().ReverseMap();
             CreateMap<UserDTO, UserModel>().ReverseMap();
             CreateMap<PlantDTO, PlantModel>().ReverseMap();
-            CreateMap<PlantDTO, PlantAddModel>().ReverseMap();
+            CreateMap<PlantAddDTO, PlantAddModel>().ReverseMap();
             CreateMap<RegisterDTO, UserModel>().ReverseMap();
             CreateMap<LoginDTO, RequestLoginModel>().ReverseMap();
             CreateMap<UserDTO, ResponseLoginModel>().ReverseMap();
@@ -30,6 +30,7 @@ namespace StartupWebApplication.Mappers
             CreateMap<ActionDTO, ActionModel>().ReverseMap();
             CreateMap<DashboardPlantDTO, DashboardPlantModel>().ReverseMap();
             CreateMap<DashboardPlantNeedDTO, DashboardPlantNeedModel>().ReverseMap();
+            CreateMap<RoomDTO, RoomModel>().ReverseMap();
         }
     }
 }

@@ -88,6 +88,18 @@ namespace DataAccessLayer
                 .WithMany(u => u.Photos)
                 .HasForeignKey(ur => ur.PlantId);
 
+            modelBuilder.Entity<PlantNeed>()
+                .HasOne(ur => ur.MonthFrom)
+                .WithMany(u => u.PlantNeedsFrom)
+                .HasForeignKey(ur => ur.MonthFromId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PlantNeed>()
+                .HasOne(ur => ur.MonthTo)
+                .WithMany(u => u.PlantNeedsTo)
+                .HasForeignKey(ur => ur.MonthToId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Month>()
                 .HasData(
                 new Month { Id = 1, Name = "January"},

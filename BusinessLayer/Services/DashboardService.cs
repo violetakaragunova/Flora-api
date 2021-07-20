@@ -48,6 +48,8 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             if (user == null)
                 throw new HttpListenerException(404, "User with id " + userId + " does not exist");
 
+            actionDTO.DateActionDone = DateTime.Today;
+
             var action = _mapper.Map<DomainModel.Action>(actionDTO);
             dbContext.Actions.Add(action);
             await dbContext.SaveChangesAsync();
@@ -78,7 +80,7 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             }
             
 
-            DateTime today = DateTime.Now;
+            DateTime today = DateTime.Today;
 
             var LastActions = (from action in dbContext.Actions
                                group action by new
@@ -106,13 +108,14 @@ namespace PlantTrackerAPI.BusinessLayer.Services
                           join action in LastActions
                           on new { plantId = plants.Id, needId = plantNeeds.NeedId } equals new { plantId = action.PlantId, needId = action.NeedId } into PlantsWithLastNeeds
                           from plantsWithLastNeeds in PlantsWithLastNeeds.DefaultIfEmpty()
+                          where plantsWithLastNeeds.DateActionDone!=today
                           select new
                           {
                               PlantId = plantNeeds.PlantId,
                               RoomName = rooms.RoomName,
                               NeedId = plantNeeds.NeedId,
                               NeedName = needs.Name,
-                              NextAction = plantsWithLastNeeds.DateActionDone.AddDays(plantNeeds.Frequency*frequencyType.Days),
+                              NextAction = plantsWithLastNeeds.DateActionDone.AddDays(plantNeeds.Frequency * frequencyType.Days),
                               Quantity = plantNeeds.Quantity,
                               PhotoUrl = plants.Photos.FirstOrDefault(x => x.IsMain == true).Url
                           } into plantNeedsWithAction

@@ -13,7 +13,7 @@ namespace PlantTrackerAPI.DataTransferLayer.Interfaces
 
         public Task<bool> DeletePlant(int id);
         public Task<PlantDTO> AddPlant(PlantAddDTO plantDTO);
-        public Task<PlantDTO> UpdatePlant(PlantDTO plantDTO);
+        public Task<PlantDTO> UpdatePlant(PlantAddDTO plantDTO);
 
     }
 }

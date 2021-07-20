@@ -60,7 +60,7 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             var roomId = plantDTO.RoomId;
             var room =await dbContext.Rooms.FirstOrDefaultAsync(r => r.Id == roomId);
             if (room == null)
-                throw new HttpListenerException(404, "Room with name " + roomId + " does not exist");
+                throw new HttpListenerException(404, "Room with id " + roomId + " does not exist");
             var plant = _mapper.Map<Plant>(plantDTO);
             dbContext.Plants.Add(plant);
             await dbContext.SaveChangesAsync();
@@ -77,13 +77,16 @@ namespace PlantTrackerAPI.BusinessLayer.Services
             return _mapper.Map<PlantDTO>(plant);
         }
 
-        public async Task<PlantDTO> UpdatePlant(PlantDTO plantDTO)
+        public async Task<PlantDTO> UpdatePlant(PlantAddDTO plantDTO)
         {
             var plantFromData = dbContext.Plants.Find(plantDTO.Id);
             if(plantFromData == null)
                 throw new HttpListenerException(404, "Plant with id " + plantDTO.Id + " does not exist");
 
-            var roomId = dbContext.Rooms.FirstOrDefault(x => x.RoomName == plantDTO.RoomName).Id;
+            var roomId = plantDTO.RoomId;
+            var room = await dbContext.Rooms.FirstOrDefaultAsync(r => r.Id == roomId);
+            if (room == null)
+                throw new HttpListenerException(404, "Room with id " + roomId + " does not exist");
 
             plantFromData.Name = plantDTO.Name;
             plantFromData.Description = plantDTO.Description;

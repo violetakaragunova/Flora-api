@@ -38,7 +38,8 @@ namespace PlantTrackerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<PlantModel> GetPlantById(int id)
         {
-            PlantModel plant = _mapper.Map<PlantModel>(await _plantService.GetPlantById(id).ConfigureAwait(false));
+            PlantDTO plantDto = await _plantService.GetPlantById(id).ConfigureAwait(false);
+            PlantModel plant = _mapper.Map<PlantModel>(plantDto);
             return plant;
         }
 

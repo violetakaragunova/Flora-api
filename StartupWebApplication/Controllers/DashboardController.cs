@@ -39,10 +39,18 @@ namespace PlantTrackerAPI.Controllers
             return Ok(action);
         }
 
-        [HttpGet("plants/{typeId}")]
+        [HttpGet("plants")]
         public List<DashboardPlantModel> GetPlants(int typeId)
          {
             var plants = _mapper.Map<List<DashboardPlantModel>>(_dashboardService.GetPlants(typeId));
+
+            return plants;
+        }
+
+        [HttpGet("plants/{typeId}")]
+        public List<DashboardPlantModel> GetPlantsX(int typeId)
+        {
+            var plants = _mapper.Map<List<DashboardPlantModel>>(_dashboardService.GetPlantsX(typeId));
 
             return plants;
         }

@@ -8,6 +8,7 @@ namespace PlantTrackerAPI.DataTransferLayer.DTO
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public string UserName { get; set; }
         public int PlantId { get; set; }
         public int NeedId { get; set; }
         public DateTime DateActionDone { get; set; }

@@ -12,6 +12,7 @@ namespace PlantTrackerAPI.DataTransferLayer.Interfaces
         public IQueryable<FrequencyTypeDTO> GetTypes();
         public Task<ActionDTO> AddAction(ActionDTO actionDTO);
         public List<DashboardPlantDTO> GetPlants(int typeId);
+        public List<DashboardPlantDTO> GetPlantsX(int typeId);
 
     }
 }

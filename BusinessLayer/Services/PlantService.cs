@@ -34,11 +34,26 @@ namespace PlantTrackerAPI.BusinessLayer.Services
 
         public async Task<PlantDTO> GetPlantById(int id)
         {
+            IQueryable<Month> months = dbContext.Months.AsQueryable();
+            IQueryable<Need> needs = dbContext.Needs.AsQueryable();
+            IQueryable<FrequencyType> frequencyTypes = dbContext.FrequencyTypes.AsQueryable();
+
             Plant plant = await dbContext.Plants.Include(p => p.Photos).Include(n => n.PlantNeeds).SingleOrDefaultAsync(x => x.Id == id);
+
             if(plant == null)
                 throw new HttpListenerException(404,"Plant with id "+id+" does not exist");
 
-            return _mapper.Map<PlantDTO>(plant);
+            var mappedPlant = _mapper.Map<PlantDTO>(plant);
+
+            foreach (var need in mappedPlant.PlantNeeds)
+            {
+                need.MonthFromName = months.FirstOrDefault(x => x.Id == need.MonthFromId).Name;
+                need.MonthToName = months.FirstOrDefault(x => x.Id == need.MonthToId).Name;
+                need.NeedName = needs.FirstOrDefault(x => x.Id == need.NeedId).Name;
+                need.FrequencyType = frequencyTypes.FirstOrDefault(x => x.Id == need.FrequencyTypeId).Type;
+            }
+
+            return mappedPlant;
         }
 
         public async Task<bool> DeletePlant(int id)

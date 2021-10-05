@@ -8,6 +8,7 @@ namespace PlantTrackerAPI.Models
         public string RoomName { get; set; }
         public string PhotoUrl { get; set; }
         public string Name { get; set; }
+        public string PlantFamilyName { get; set; }
         public string Description { get; set; }
         public IEnumerable<DashboardPlantNeedModel> PlantNeeds { get; set; }
     }

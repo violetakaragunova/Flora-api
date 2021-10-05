@@ -9,6 +9,7 @@ namespace PlantTrackerAPI.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string PlantFamilyName { get; set; }
         public string Description { get; set; }
         public int RoomId { get; set; }
         public string RoomName { get; set; }

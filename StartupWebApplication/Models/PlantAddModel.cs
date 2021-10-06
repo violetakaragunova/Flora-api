@@ -17,5 +17,7 @@ namespace PlantTrackerAPI.Models
         public int RoomId { get; set; }
         [Required]
         public string Url { get; set; }
+        [Required]
+        public string PlantFamilyName { get; set; }
     }
 }

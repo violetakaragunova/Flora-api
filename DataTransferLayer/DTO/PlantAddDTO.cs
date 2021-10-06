@@ -11,5 +11,6 @@ namespace PlantTrackerAPI.DataTransferLayer.DTO
         public string Description { get; set; }
         public int RoomId { get; set; }
         public string Url { get; set; }
+        public string PlantFamilyName { get; set; }
     }
 }
